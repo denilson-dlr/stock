@@ -1,9 +1,7 @@
 package br.com.deni.stock;
 
 import br.com.deni.stock.core.domain.*;
-import br.com.deni.stock.domain.*;
 import br.com.deni.stock.core.repositories.InvoiceRepository;
-import br.com.rd.stockApi.domain.*;
 import br.com.deni.stock.core.repositories.ItemRepository;
 import br.com.deni.stock.core.repositories.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
