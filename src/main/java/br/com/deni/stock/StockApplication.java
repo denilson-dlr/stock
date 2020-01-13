@@ -1,9 +1,7 @@
 package br.com.deni.stock;
 
 import br.com.deni.stock.core.domain.*;
-import br.com.deni.stock.core.repositories.InvoiceRepository;
-import br.com.deni.stock.core.repositories.ItemRepository;
-import br.com.deni.stock.core.repositories.StockRepository;
+import br.com.deni.stock.core.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,6 +20,15 @@ public class StockApplication implements CommandLineRunner {
 
 	@Autowired
 	private StockRepository stockRepository;
+
+	@Autowired
+	private StockBranchRepository stockBranchRepository;
+
+	@Autowired
+	private StockShippingRepository stockShippingRepository;
+
+	@Autowired
+	private StockWarehouseRepository stockWarehouseRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(StockApplication.class, args);
@@ -61,7 +68,10 @@ public class StockApplication implements CommandLineRunner {
 
 		invoiceRepository.saveAll(Arrays.asList(invoice1, invoice2));
 		itemRepository.saveAll(Arrays.asList(item1,item2,item3,item4,item5));
-		stockRepository.saveAll(Arrays.asList(stockBranch1,stockShipping1,stockWarehouse1));
+		stockBranchRepository.saveAll(Arrays.asList(stockBranch1));
+		stockShippingRepository.saveAll(Arrays.asList(stockShipping1));
+		stockWarehouseRepository.saveAll(Arrays.asList(stockWarehouse1));
+		//stockRepository.saveAll(Arrays.asList(stockBranch1,stockShipping1,stockWarehouse1));
 
 	}
 }
