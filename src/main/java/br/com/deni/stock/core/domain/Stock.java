@@ -9,7 +9,9 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -30,12 +32,8 @@ public class Stock implements Serializable {
     private String type;
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "STOCK_ITEM",
-            joinColumns = @JoinColumn(name = "stock_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_id")
-    )
-    private List<Item> items = new ArrayList<>();
+    @OneToMany(mappedBy="id.stock")
+    private Set<ItemStock> items = new HashSet<>();;
 
     public Stock(){
 
@@ -46,6 +44,14 @@ public class Stock implements Serializable {
         this.id = id;
         this.quantity = quantity;
         this.type = type;
+    }
+
+    public Integer getTotalQuantity() {
+        Integer soma = 0;
+        for (ItemStock itemStock : items) {
+            soma = soma + itemStock.getQuantity();
+        }
+        return soma;
     }
 
     public Integer getId() {
@@ -72,11 +78,12 @@ public class Stock implements Serializable {
         this.type = type;
     }
 
-    public List<Item> getItems() {
+
+    public Set<ItemStock> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(Set<ItemStock> items) {
         this.items = items;
     }
 

@@ -8,7 +8,9 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Item implements Serializable {
@@ -23,8 +25,8 @@ public class Item implements Serializable {
     @ApiModelProperty(dataType = "Inteiro", notes = "Quantidade de itens do produto.", example = "10", position = 3)
     private Integer quantity;
 
-    @ManyToMany(mappedBy="items", cascade = CascadeType.ALL)
-    private List<Stock> stocks = new ArrayList<>();
+    @OneToMany(mappedBy="id.item")
+    private Set<ItemStock> items = new HashSet<>();
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
@@ -35,12 +37,21 @@ public class Item implements Serializable {
 
     }
 
-    public Item(Integer sku, String name, Integer quantity, Invoice invoice){
+    public Item( Integer sku, String name, Integer quantity, Invoice invoice){
         super();
         this.sku = sku;
         this.name = name;
         this.quantity = quantity;
         this.invoice = invoice;
+    }
+
+    @JsonIgnore
+    public List<Stock> getPedidos() {
+        List<Stock> list = new ArrayList<>();
+        for (ItemStock x : items) {
+            list.add(x.getStock());
+        }
+        return list;
     }
 
     public Integer getSku() {
@@ -75,12 +86,12 @@ public class Item implements Serializable {
         this.invoice = invoice;
     }
 
-    public List<Stock> getStocks() {
-        return stocks;
+    public Set<ItemStock> getItems() {
+        return items;
     }
 
-    public void setStocks(List<Stock> stocks) {
-        this.stocks = stocks;
+    public void setItems(Set<ItemStock> items) {
+        this.items = items;
     }
 
     @Override
