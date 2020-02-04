@@ -48,12 +48,15 @@ public class StockApplication implements CommandLineRunner {
 		stockBranchRepository.saveAll(Arrays.asList(stockBranch1));
 
 		Invoice invoice1 = new Invoice(null);
-		Item item7 = new Item(null, "Dipirona",100, invoice1);
-		Item item8 = new Item(null, "Novalgina", 50, invoice1);
-		Item item9 = new Item(null, "Powerade",5, invoice1);
+		Item item7 = new Item(null, 1, "Dipirona",100, invoice1);
+		Item item8 = new Item(null, 2, "Novalgina", 50, invoice1);
+		Item item9 = new Item(null, 3, "Powerade",5, invoice1);
 		invoice1.getItems().addAll(Arrays.asList(item7,item8,item9));
 		invoiceRepository.saveAll(Arrays.asList(invoice1));
 		itemRepository.saveAll(Arrays.asList(item7,item8,item9));
+
+
+
 		ItemStock itemStock7 = new ItemStock(item7,stockBranch1,item7.getQuantity());
 		ItemStock itemStock8 = new ItemStock(item8,stockBranch1,item8.getQuantity());
 		ItemStock itemStock9 = new ItemStock(item9,stockBranch1,item9.getQuantity());
@@ -64,6 +67,24 @@ public class StockApplication implements CommandLineRunner {
 		item9.getItems().addAll(Arrays.asList(itemStock9));
 
 		itemStockRepository.saveAll(Arrays.asList(itemStock7,itemStock8,itemStock9));
+
+		//stockBranchService.creditItem(invoice1, stockBranch1.getBranchCode());
+
+
+
+		Invoice invoice2 = new Invoice(null);
+		Item item2 = new Item(null, 4, "Amoxilina",200, invoice2);
+		invoice2.getItems().addAll(Arrays.asList(item2));
+		invoiceRepository.saveAll(Arrays.asList(invoice2));
+		itemRepository.saveAll(Arrays.asList(item2));
+		stockBranchService.creditItem(invoice2, stockBranch1.getBranchCode());
+
+		Invoice invoice3 = new Invoice(null);
+		Item item3 = new Item(null, 4, "Amoxilina",244, invoice3);
+		invoice3.getItems().addAll(Arrays.asList(item3));
+		invoiceRepository.saveAll(Arrays.asList(invoice3));
+		itemRepository.saveAll(Arrays.asList(item3));
+		stockBranchService.creditItem(invoice3, stockBranch1.getBranchCode());
 
 
 	}

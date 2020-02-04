@@ -1,11 +1,7 @@
 package br.com.deni.stock.core.services;
 
 
-import br.com.deni.stock.core.domain.Invoice;
-import br.com.deni.stock.core.domain.Item;
-import br.com.deni.stock.core.domain.ItemStock;
-import br.com.deni.stock.core.domain.StockBranch;
-import br.com.deni.stock.core.repositories.ItemRepository;
+import br.com.deni.stock.core.domain.*;
 import br.com.deni.stock.core.repositories.ItemStockRepository;
 import br.com.deni.stock.core.repositories.StockBranchRepository;
 import com.google.gson.Gson;
@@ -14,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class StockBranchService {
@@ -33,11 +29,6 @@ public class StockBranchService {
         return stockBranch;
     }
 
-    public StockBranch findByItem(Integer sku){
-        StockBranch stockBranch = repository.findByBranchCode(sku);
-        return stockBranch;
-    }
-
 
     public StockBranch insert(StockBranch branch){
         branch = repository.save(branch);
@@ -45,19 +36,27 @@ public class StockBranchService {
     }
 
     @Transactional
-    public void creditItem(Invoice invoice){
-
+    public void creditItem(Invoice invoice, Integer stockCode){
+        StockBranch stockBranch = find(stockCode);
         for(Item item : invoice.getItems()){
-            StockBranch stockBranch = find(item.getSku());
-            for (ItemStock itemStock : stockBranch.getItems()) {
-                if (itemStock.getItem().getSku().equals(item.getSku())) {
-
-                } else {
-                    itemStock.setStock(stockBranch);
-                    itemStock.setItem(item);
-                }
+            ItemStockPK itemStockPK = new ItemStockPK();
+            itemStockPK.setStock(stockBranch);
+            itemStockPK.setItem(item);
+            System.out.println("To com PK");
+            ItemStock itemStock = itemStockRepository.findById(itemStockPK);
+            if (Objects.isNull(itemStock)){
+                itemStock = new ItemStock();
+                itemStock.setStock(stockBranch);
+                itemStock.setItem(item);
+                itemStock.setQuantity(item.getQuantity());
+                stockBranch.getItems().add(itemStock);
+                item.getItems().add(itemStock);
+                itemStockRepository.save(itemStock);
+            } else {
+                    ItemStock newItemStock = itemStock;
+                    newItemStock.setQuantity(item.getQuantity()+itemStock.getQuantity());
+                    itemStockRepository.save(newItemStock);
             }
-            itemStockRepository.saveAll(stockBranch.getItems());
         }
     }
 

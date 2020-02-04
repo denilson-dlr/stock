@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,6 +19,8 @@ public class Item implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(dataType = "Inteiro", notes = "Campo de identificação do Produto (SKU).", example = "1111", position = 1)
+    private Integer id;
     @ApiModelProperty(dataType = "Inteiro", notes = "Campo de identificação do Produto (SKU).", example = "1111", position = 1)
     private Integer sku;
     @ApiModelProperty(dataType = "String", notes = "Nome do Produto.", example = "Dipirona Sódica", position = 2)
@@ -37,8 +40,9 @@ public class Item implements Serializable {
 
     }
 
-    public Item( Integer sku, String name, Integer quantity, Invoice invoice){
+    public Item(Integer id, Integer sku, String name, Integer quantity, Invoice invoice){
         super();
+        this.id = id;
         this.sku = sku;
         this.name = name;
         this.quantity = quantity;
@@ -52,6 +56,14 @@ public class Item implements Serializable {
             list.add(x.getStock());
         }
         return list;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getSku() {
@@ -98,7 +110,7 @@ public class Item implements Serializable {
     public int hashCode(){
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((sku == null) ? 0 : sku.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
@@ -111,10 +123,10 @@ public class Item implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         Item other = (Item) obj;
-        if (sku == null) {
-            if (other.sku != null)
+        if (id == null) {
+            if (other.id != null)
                 return false;
-        } else if (!sku.equals(other.sku))
+        } else if (!id.equals(other.id))
             return false;
         return true;
     }

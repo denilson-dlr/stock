@@ -14,7 +14,10 @@ public class ItemStockPK implements Serializable {
     private Stock stock;
 
     @ManyToOne
-    @JoinColumn(name="item_id")
+    @JoinColumn(
+            name="item_sku",
+            referencedColumnName = "sku"
+    )
     private Item item;
 
     public Stock getStock() {

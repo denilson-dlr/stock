@@ -25,7 +25,6 @@ public class ItemStock implements Serializable {
         super();
         id.setItem(item);
         id.setStock(stock);
-        this.id = id;
         this.quantity = quantity;
     }
 
