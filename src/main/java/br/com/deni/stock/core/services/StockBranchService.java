@@ -42,7 +42,6 @@ public class StockBranchService {
             ItemStockPK itemStockPK = new ItemStockPK();
             itemStockPK.setStock(stockBranch);
             itemStockPK.setItem(item);
-            System.out.println("To com PK");
             ItemStock itemStock = itemStockRepository.findById(itemStockPK);
             if (Objects.isNull(itemStock)){
                 itemStock = new ItemStock();
