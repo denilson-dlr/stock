@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,8 +27,7 @@ public class Item implements Serializable {
     @ApiModelProperty(dataType = "Inteiro", notes = "Quantidade de itens do produto.", example = "10", position = 3)
     private Integer quantity;
 
-    @OneToMany(mappedBy="id.item")
-    private Set<ItemStock> items = new HashSet<>();
+
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
@@ -49,14 +47,7 @@ public class Item implements Serializable {
         this.invoice = invoice;
     }
 
-    @JsonIgnore
-    public List<Stock> getPedidos() {
-        List<Stock> list = new ArrayList<>();
-        for (ItemStock x : items) {
-            list.add(x.getStock());
-        }
-        return list;
-    }
+
 
     public Integer getId() {
         return id;
@@ -98,13 +89,6 @@ public class Item implements Serializable {
         this.invoice = invoice;
     }
 
-    public Set<ItemStock> getItems() {
-        return items;
-    }
-
-    public void setItems(Set<ItemStock> items) {
-        this.items = items;
-    }
 
     @Override
     public int hashCode(){

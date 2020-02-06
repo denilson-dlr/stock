@@ -10,7 +10,4 @@ import org.springframework.data.repository.NoRepositoryBean;
 public interface StockBaseRepository<T extends Stock>
     extends JpaRepository<Stock, Integer> {
 
-
-
-    public T findByItems(Item items);
 }

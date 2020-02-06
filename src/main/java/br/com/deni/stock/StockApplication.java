@@ -35,7 +35,7 @@ public class StockApplication implements CommandLineRunner {
 	private StockBranchService stockBranchService;
 
 	@Autowired
-	private ItemStockRepository itemStockRepository;
+	private ProductStockRepository productStockRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(StockApplication.class, args);
@@ -47,6 +47,10 @@ public class StockApplication implements CommandLineRunner {
 		StockBranch stockBranch1 = new StockBranch(null,25,"BRANCH", 1222);
 		stockBranchRepository.saveAll(Arrays.asList(stockBranch1));
 
+		StockWarehouse stockWarehouse1 = new StockWarehouse(null,30,"WAREHOUSE", 1000);
+		stockWarehouseRepository.saveAll(Arrays.asList(stockWarehouse1));
+
+		/*
 		Invoice invoice1 = new Invoice(null);
 		Item item7 = new Item(null, 1, "Dipirona",100, invoice1);
 		Item item8 = new Item(null, 2, "Novalgina", 50, invoice1);
@@ -57,34 +61,47 @@ public class StockApplication implements CommandLineRunner {
 
 
 
-		ItemStock itemStock7 = new ItemStock(item7,stockBranch1,item7.getQuantity());
-		ItemStock itemStock8 = new ItemStock(item8,stockBranch1,item8.getQuantity());
-		ItemStock itemStock9 = new ItemStock(item9,stockBranch1,item9.getQuantity());
+		ProductStock productStock7 = new ProductStock(item7,stockBranch1,item7.getQuantity());
+		ProductStock productStock8 = new ProductStock(item8,stockBranch1,item8.getQuantity());
+		ProductStock productStock9 = new ProductStock(item9,stockBranch1,item9.getQuantity());
 
-		stockBranch1.getItems().addAll(Arrays.asList(itemStock7,itemStock8,itemStock9));
-		item7.getItems().addAll(Arrays.asList(itemStock7));
-		item8.getItems().addAll(Arrays.asList(itemStock8));
-		item9.getItems().addAll(Arrays.asList(itemStock9));
+		stockBranch1.getProducts().addAll(Arrays.asList(productStock7, productStock8, productStock9));
+		item7.getItems().addAll(Arrays.asList(productStock7));
+		item8.getItems().addAll(Arrays.asList(productStock8));
+		item9.getItems().addAll(Arrays.asList(productStock9));
 
-		itemStockRepository.saveAll(Arrays.asList(itemStock7,itemStock8,itemStock9));
+		productStockRepository.saveAll(Arrays.asList(productStock7, productStock8, productStock9));
 
 		//stockBranchService.creditItem(invoice1, stockBranch1.getBranchCode());
+
+		 */
 
 
 
 		Invoice invoice2 = new Invoice(null);
 		Item item2 = new Item(null, 4, "Amoxilina",200, invoice2);
 		invoice2.getItems().addAll(Arrays.asList(item2));
-		invoiceRepository.saveAll(Arrays.asList(invoice2));
-		itemRepository.saveAll(Arrays.asList(item2));
+		//invoiceRepository.saveAll(Arrays.asList(invoice2));
+		//itemRepository.saveAll(Arrays.asList(item2));
 		stockBranchService.creditItem(invoice2, stockBranch1.getBranchCode());
 
 		Invoice invoice3 = new Invoice(null);
-		Item item3 = new Item(null, 4, "Amoxilina",244, invoice3);
+		Item item3 = new Item(null, 5, "Dipirona",244, invoice3);
 		invoice3.getItems().addAll(Arrays.asList(item3));
-		invoiceRepository.saveAll(Arrays.asList(invoice3));
-		itemRepository.saveAll(Arrays.asList(item3));
+		//invoiceRepository.saveAll(Arrays.asList(invoice3));
+		//itemRepository.saveAll(Arrays.asList(item3));
 		stockBranchService.creditItem(invoice3, stockBranch1.getBranchCode());
+
+		/*
+		Invoice invoice4 = new Invoice(null);
+		Item item4 = new Item(null, 4, "Amoxilina",244, invoice3);
+		invoice4.getItems().addAll(Arrays.asList(item4));
+		//invoiceRepository.saveAll(Arrays.asList(invoice3));
+		//itemRepository.saveAll(Arrays.asList(item3));
+		stockWarehouseService.creditItem(invoice4, stockWarehouse1.getWarehouseCode());
+
+		 */
+
 
 
 	}

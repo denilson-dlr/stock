@@ -8,34 +8,34 @@ import java.io.Serializable;
 
 
 @Entity
-public class ItemStock implements Serializable {
+public class ProductStock implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonIgnore
     @EmbeddedId
-    private ItemStockPK id = new ItemStockPK();
+    private ProductStockPK id = new ProductStockPK();
 
     private Integer quantity;
 
-    public ItemStock(){
+    public ProductStock(){
 
     }
 
-    public ItemStock(Item item, Stock stock, Integer quantity) {
+    public ProductStock(Product product, Stock stock, Integer quantity) {
         super();
-        id.setItem(item);
+        id.setProduct(product);
         id.setStock(stock);
         this.quantity = quantity;
     }
 
 
     @JsonIgnore
-    public Item getItem(){
-        return id.getItem();
+    public Product getProduct(){
+        return id.getProduct();
     }
 
-    public void setItem(Item item){
-        id.setItem(item);
+    public void setProduct(Product product){
+        id.setProduct(product);
     }
 
     public Stock getStock(){
@@ -46,11 +46,11 @@ public class ItemStock implements Serializable {
         id.setStock(stock);
     }
 
-    public ItemStockPK getId() {
+    public ProductStockPK getId() {
         return id;
     }
 
-    public void setId(ItemStockPK id) {
+    public void setId(ProductStockPK id) {
         this.id = id;
     }
 
@@ -80,7 +80,7 @@ public class ItemStock implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ItemStock other = (ItemStock) obj;
+        ProductStock other = (ProductStock) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -92,10 +92,7 @@ public class ItemStock implements Serializable {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append(getItem().getName());
-        builder.append(", Quantidade: ");
-        builder.append(getQuantity());
-        builder.append(", Preço unitário: ");
+        builder.append(getProduct().getName());
         builder.append("\n");
         return builder.toString();
     }

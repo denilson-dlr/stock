@@ -6,7 +6,7 @@ import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 @Embeddable
-public class ItemStockPK implements Serializable {
+public class ProductStockPK implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ManyToOne
@@ -15,10 +15,10 @@ public class ItemStockPK implements Serializable {
 
     @ManyToOne
     @JoinColumn(
-            name="item_sku",
+            name="product_sku",
             referencedColumnName = "sku"
     )
-    private Item item;
+    private Product product;
 
     public Stock getStock() {
         return stock;
@@ -26,11 +26,11 @@ public class ItemStockPK implements Serializable {
     public void setStock(Stock stock) {
         this.stock = stock;
     }
-    public Item getItem() {
-        return item;
+    public Product getProduct() {
+        return product;
     }
-    public void setItem(Item item) {
-        this.item = item;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ItemStockPK implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((stock == null) ? 0 : stock.hashCode());
-        result = prime * result + ((item == null) ? 0 : item.hashCode());
+        result = prime * result + ((product == null) ? 0 : product.hashCode());
         return result;
     }
     @Override
@@ -49,16 +49,16 @@ public class ItemStockPK implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ItemStockPK other = (ItemStockPK) obj;
+        ProductStockPK other = (ProductStockPK) obj;
         if (stock == null) {
             if (other.stock != null)
                 return false;
         } else if (!stock.equals(other.stock))
             return false;
-        if (item == null) {
-            if (other.item != null)
+        if (product == null) {
+            if (other.product != null)
                 return false;
-        } else if (!item.equals(other.item))
+        } else if (!product.equals(other.product))
             return false;
         return true;
     }

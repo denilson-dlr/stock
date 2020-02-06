@@ -8,9 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -33,7 +31,7 @@ public class Stock implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy="id.stock")
-    private Set<ItemStock> items = new HashSet<>();;
+    private Set<ProductStock> products = new HashSet<>();;
 
     public Stock(){
 
@@ -48,8 +46,8 @@ public class Stock implements Serializable {
 
     public Integer getTotalQuantity() {
         Integer soma = 0;
-        for (ItemStock itemStock : items) {
-            soma = soma + itemStock.getQuantity();
+        for (ProductStock productStock : products) {
+            soma = soma + productStock.getQuantity();
         }
         return soma;
     }
@@ -78,13 +76,12 @@ public class Stock implements Serializable {
         this.type = type;
     }
 
-
-    public Set<ItemStock> getItems() {
-        return items;
+    public Set<ProductStock> getProducts() {
+        return products;
     }
 
-    public void setItems(Set<ItemStock> items) {
-        this.items = items;
+    public void setProducts(Set<ProductStock> products) {
+        this.products = products;
     }
 
     @Override

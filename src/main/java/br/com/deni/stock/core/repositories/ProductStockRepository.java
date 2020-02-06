@@ -1,22 +1,20 @@
 package br.com.deni.stock.core.repositories;
 
-import br.com.deni.stock.core.domain.ItemStock;
-import br.com.deni.stock.core.domain.ItemStockPK;
+import br.com.deni.stock.core.domain.ProductStock;
+import br.com.deni.stock.core.domain.ProductStockPK;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Repository
-public interface ItemStockRepository extends JpaRepository<ItemStock, Integer> {
+public interface ProductStockRepository extends JpaRepository<ProductStock, Integer> {
 
     //@org.springframework.transaction.annotation.Transactional(readOnly = true)
-    //ItemStock findByItemStock();
+    //ProductStock findByItemStock();
 
     //@org.springframework.transaction.annotation.Transactional(readOnly = true)
-    //ItemStock findAllByItemStock(ItemStockPK itemStockPK);
+    //ProductStock findAllByItemStock(ProductStockPK itemStockPK);
 
     @Transactional(readOnly=true)
-    ItemStock findById(ItemStockPK itemStockPK);
+    ProductStock findById(ProductStockPK productStockPK);
 }
