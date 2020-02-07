@@ -25,6 +25,9 @@ public class StockBranchService {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ItemService itemService;
+
 
     public StockBranch find(Integer id){
         StockBranch stockBranch = repository.findByBranchCode(id);
@@ -39,24 +42,21 @@ public class StockBranchService {
 
     @Transactional
     public void creditItem(Invoice invoice, Integer stockCode){
+        itemService.insertAll(invoice.getItems());
         invoiceService.insert(invoice);
         StockBranch stockBranch = find(stockCode);
         for(Item item : invoice.getItems()){
             Product product = productService.find(item.getSku());
             if (Objects.isNull(product)){
                 Product newProduct = addProduct(item);
-                ProductStock productStock = findPK(stockBranch, newProduct);
-                if (Objects.isNull(productStock)){
-                    addProductStock(stockBranch, newProduct, item);
-                    creditStockQuantity(stockBranch, item);
-                } else {
-                    ProductStock newProductStock = productStock;
-                    creditProductQuantity(item, newProductStock, productStock);
-                    creditStockQuantity(stockBranch, item);
-                    productStockRepository.save(newProductStock);
-                }
+                addProductStock(stockBranch, newProduct, item);
+                creditStockQuantity(stockBranch, item);
             } else {
-
+                ProductStock productStock = findPK(stockBranch, product);
+                ProductStock newProductStock = productStock;
+                creditProductQuantity(item, newProductStock, productStock);
+                creditStockQuantity(stockBranch, item);
+                productStockRepository.save(newProductStock);
             }
 
         }

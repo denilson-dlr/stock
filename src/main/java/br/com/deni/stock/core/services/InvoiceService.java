@@ -19,8 +19,8 @@ public class InvoiceService {
     @Transactional
     public Invoice insert(Invoice invoice){
         invoice = repository.save(invoice);
-        itemRepository.saveAll(invoice.getItems());
         return invoice;
+
     }
 
 }
