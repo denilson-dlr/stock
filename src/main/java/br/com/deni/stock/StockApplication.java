@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
+import javax.servlet.Filter;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -58,19 +61,19 @@ public class StockApplication implements CommandLineRunner {
 		StockWarehouse stockWarehouse1 = new StockWarehouse(null,0,"WAREHOUSE", 1000);
 		stockWarehouseRepository.saveAll(Arrays.asList(stockWarehouse1));
 
-		Invoice invoice2 = new Invoice(null);
+		Invoice invoice2 = new Invoice(null, 1222);
 		Item item2 = new Item(null, 4, "Amoxilina",200, invoice2);
 		invoice2.getItems().addAll(Arrays.asList(item2));
 		//invoiceRepository.saveAll(Arrays.asList(invoice2));
 		//itemRepository.saveAll(Arrays.asList(item2));
-		stockBranchService.creditItem(invoice2, stockBranch1.getBranchCode());
+		stockBranchService.creditItem(invoice2);
 
-		Invoice invoice3 = new Invoice(null);
+		Invoice invoice3 = new Invoice(null, 1222);
 		Item item3 = new Item(null, 5, "Dipirona",244, invoice3);
 		Item item4 = new Item(null, 4, "Amoxilina",133, invoice3);
 		invoice3.getItems().addAll(Arrays.asList(item3,item4));
 		//itemService.insertAll(invoice3.getItems());
-		stockBranchService.creditItem(invoice3, stockBranch1.getBranchCode());
+		stockBranchService.creditItem(invoice3);
 
 		/*
 		Invoice invoice4 = new Invoice(null);

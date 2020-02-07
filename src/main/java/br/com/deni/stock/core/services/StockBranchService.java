@@ -41,10 +41,10 @@ public class StockBranchService {
     }
 
     @Transactional
-    public void creditItem(Invoice invoice, Integer stockCode){
+    public void creditItem(Invoice invoice){
         itemService.insertAll(invoice.getItems());
         invoiceService.insert(invoice);
-        StockBranch stockBranch = find(stockCode);
+        StockBranch stockBranch = find(invoice.getStockCode());
         for(Item item : invoice.getItems()){
             Product product = productService.find(item.getSku());
             if (Objects.isNull(product)){

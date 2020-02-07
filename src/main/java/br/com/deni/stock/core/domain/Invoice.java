@@ -18,6 +18,8 @@ public class Invoice implements Serializable {
     @ApiModelProperty(dataType = "Inteiro", notes = "Campo de identificação da Nota Fiscal.", example = "1111", position = 1)
     private Integer id;
 
+    private Integer stockCode;
+
     @OneToMany(mappedBy="invoice",cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 
@@ -25,9 +27,10 @@ public class Invoice implements Serializable {
 
     }
 
-    public Invoice(Integer id){
+    public Invoice(Integer id, Integer stockCode){
         super();
         this.id = id;
+        this.stockCode = stockCode;
     }
 
     public Integer getId() {
@@ -36,6 +39,14 @@ public class Invoice implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getStockCode() {
+        return stockCode;
+    }
+
+    public void setStockCode(Integer stockCode) {
+        this.stockCode = stockCode;
     }
 
     public List<Item> getItems() {
