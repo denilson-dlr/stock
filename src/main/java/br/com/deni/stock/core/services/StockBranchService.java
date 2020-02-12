@@ -1,7 +1,13 @@
 package br.com.deni.stock.core.services;
 
 
-import br.com.deni.stock.core.domain.*;
+import br.com.deni.stock.core.domain.Invoice;
+import br.com.deni.stock.core.domain.Item;
+import br.com.deni.stock.core.domain.Product;
+import br.com.deni.stock.core.domain.ProductStock;
+import br.com.deni.stock.core.domain.ProductStockPK;
+import br.com.deni.stock.core.domain.StockBranch;
+import br.com.deni.stock.core.domain.dto.StockBranchNewDTO;
 import br.com.deni.stock.core.repositories.ProductStockRepository;
 import br.com.deni.stock.core.repositories.StockBranchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,5 +108,10 @@ public class StockBranchService {
         StockBranch newStockBranch = stockBranch;
         newStockBranch.setQuantity(stockBranch.getQuantity()+item.getQuantity());
         repository.save(newStockBranch);
+    }
+
+    public StockBranch fromDTO(StockBranchNewDTO objDto) {
+        StockBranch stockBranch = new StockBranch(null, objDto.getQuantity(),"BRANCH",objDto.getBranchCode());
+        return stockBranch;
     }
 }
