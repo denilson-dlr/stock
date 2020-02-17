@@ -1,7 +1,9 @@
 package br.com.deni.stock.core.domain;
 
+import br.com.deni.stock.core.domain.dto.InvoiceNewDTO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.DiscriminatorValue;
@@ -9,10 +11,11 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue(value = "BRANCH")
+@ApiModel(value = "Objeto de Estoque de Loja",subTypes = {StockBranch.class})
 public class StockBranch extends Stock{
     public static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(dataType = "Inteiro", notes = "Quantidade de itens armazenados em estoque.", example = "10", position = 4)
+    @ApiModelProperty(dataType = "Inteiro", notes = "Código da Loja.", example = "10", position = 4)
     private Integer branchCode;
 
     public StockBranch(){

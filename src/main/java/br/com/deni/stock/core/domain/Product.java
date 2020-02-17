@@ -3,6 +3,7 @@ package br.com.deni.stock.core.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@ApiModel(value = "Objeto de Produto",subTypes = {Product.class})
 public class Product implements Serializable {
     public static final long serialVersionUID = 1L;
 

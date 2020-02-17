@@ -21,7 +21,7 @@ public class Stock implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(dataType = "Inteiro", notes = "Identificação de estoque. Campo nulo quando houver request de nova inserção de estoque.", example = "01", position = 1)
+    @ApiModelProperty(dataType = "Inteiro", notes = "Identificação de estoque.", example = "01", position = 1)
     private Integer id;
     @ApiModelProperty(dataType = "Inteiro", notes = "Quantidade de itens armazenados em estoque.", example = "10", position = 2)
     private Integer quantity;

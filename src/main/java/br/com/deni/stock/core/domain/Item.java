@@ -3,6 +3,7 @@ package br.com.deni.stock.core.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
@@ -13,18 +14,19 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@ApiModel(value = "Objeto de Item",subTypes = {Item.class})
 public class Item implements Serializable {
     public static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(dataType = "Inteiro", notes = "Campo de identificação do Produto (SKU).", example = "1111", position = 1)
+    @ApiModelProperty(dataType = "Inteiro", notes = "Campo de identificação automático.", example = "1111", position = 1)
     private Integer id;
-    @ApiModelProperty(dataType = "Inteiro", notes = "Campo de identificação do Produto (SKU).", example = "1111", position = 1)
+    @ApiModelProperty(dataType = "Inteiro", notes = "Campo do código do Produto (SKU).", example = "1111", position = 2)
     private Integer sku;
-    @ApiModelProperty(dataType = "String", notes = "Nome do Produto.", example = "Dipirona Sódica", position = 2)
+    @ApiModelProperty(dataType = "String", notes = "Nome do Produto.", example = "Dipirona Sódica", position = 3)
     private String name;
-    @ApiModelProperty(dataType = "Inteiro", notes = "Quantidade de itens do produto.", example = "10", position = 3)
+    @ApiModelProperty(dataType = "Inteiro", notes = "Quantidade de itens do produto.", example = "10", position = 4)
     private Integer quantity;
 
 

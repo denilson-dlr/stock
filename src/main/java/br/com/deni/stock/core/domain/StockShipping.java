@@ -2,6 +2,7 @@ package br.com.deni.stock.core.domain;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.DiscriminatorValue;
@@ -9,6 +10,7 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue(value = "SHIPPING")
+@ApiModel(value = "Objeto de Estoque em Trânsito",subTypes = {StockShipping.class})
 public class StockShipping extends Stock{
     public static final long serialVersionUID = 1L;
 

@@ -2,16 +2,19 @@ package br.com.deni.stock.core.domain.dto;
 
 
 import br.com.deni.stock.core.domain.Item;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.List;
 
-
+@ApiModel(value = "Objeto de nova Nota Fiscal com Itens",subTypes = {InvoiceNewDTO.class})
 public class InvoiceNewDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(dataType = "Inteiro", notes = "Campo de destino da nota fiscal.", example = "1222", position = 1)
     private Integer stockCode;
-
+    @ApiModelProperty(dataType = "Lista de Objeto de Item", notes = "Lista de itens da nota fiscal.", example = "Array de item", position = 2)
     private List<Item> items;
 
     public InvoiceNewDTO(){

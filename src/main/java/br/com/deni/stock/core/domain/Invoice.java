@@ -2,6 +2,7 @@ package br.com.deni.stock.core.domain;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@ApiModel(value = "Objeto de Nota Fiscal",subTypes = {Invoice.class})
 public class Invoice implements Serializable {
     public static final long serialVersionUID = 1L;
 
@@ -17,9 +19,9 @@ public class Invoice implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(dataType = "Inteiro", notes = "Campo de identificação da Nota Fiscal.", example = "1111", position = 1)
     private Integer id;
-
+    @ApiModelProperty(dataType = "Inteiro", notes = "Campo de destino da nota fiscal.", example = "1222", position = 2)
     private Integer stockCode;
-
+    @ApiModelProperty(dataType = "Lista de Objeto de Item", notes = "Lista de itens da nota fiscal.", example = "Array de item", position = 3)
     @OneToMany(mappedBy="invoice",cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 
