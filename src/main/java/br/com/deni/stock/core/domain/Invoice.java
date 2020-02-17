@@ -21,7 +21,7 @@ public class Invoice implements Serializable {
     private Integer id;
     @ApiModelProperty(dataType = "Inteiro", notes = "Campo de destino da nota fiscal.", example = "1222", position = 2)
     private Integer stockCode;
-    @ApiModelProperty(dataType = "Lista de Objeto de Item", notes = "Lista de itens da nota fiscal.", example = "Array de item", position = 3)
+
     @OneToMany(mappedBy="invoice",cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 

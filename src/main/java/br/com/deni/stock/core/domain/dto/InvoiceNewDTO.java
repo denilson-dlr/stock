@@ -14,7 +14,7 @@ public class InvoiceNewDTO implements Serializable {
 
     @ApiModelProperty(dataType = "Inteiro", notes = "Campo de destino da nota fiscal.", example = "1222", position = 1)
     private Integer stockCode;
-    @ApiModelProperty(dataType = "Lista de Objeto de Item", notes = "Lista de itens da nota fiscal.", example = "Array de item", position = 2)
+
     private List<Item> items;
 
     public InvoiceNewDTO(){
