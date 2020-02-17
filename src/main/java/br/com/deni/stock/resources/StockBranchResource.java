@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "/stockBranch")
+@RequestMapping(value = "/branches")
 public class StockBranchResource {
 
     @Autowired

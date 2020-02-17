@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "/stockWarehouse")
+@RequestMapping(value = "/warehouses")
 public class StockWarehouseResource {
 
     @Autowired
