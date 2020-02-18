@@ -106,6 +106,8 @@ public class StockBranchService {
 
     public void creditStockQuantity(StockBranch stockBranch, Item item){
         StockBranch newStockBranch = stockBranch;
+        if(Objects.isNull(item.getQuantity()))
+            item.setQuantity(0);
         newStockBranch.setQuantity(stockBranch.getQuantity()+item.getQuantity());
         repository.save(newStockBranch);
     }

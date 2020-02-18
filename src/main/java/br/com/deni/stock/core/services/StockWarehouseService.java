@@ -59,10 +59,15 @@ public class StockWarehouseService {
                 creditStockQuantity(stockWarehouse, item);
             } else {
                 ProductStock productStock = findPK(stockWarehouse, product);
-                ProductStock newProductStock = productStock;
-                creditProductQuantity(item, newProductStock, productStock);
-                creditStockQuantity(stockWarehouse, item);
-                productStockRepository.save(newProductStock);
+                if(Objects.isNull(productStock)) {
+                    addProductStock(stockWarehouse, product, item);
+                    creditStockQuantity(stockWarehouse, item);
+                } else {
+                    ProductStock newProductStock = productStock;
+                    creditProductQuantity(item, newProductStock, productStock);
+                    creditStockQuantity(stockWarehouse, item);
+                    productStockRepository.save(newProductStock);
+                }
             }
 
         }
@@ -101,11 +106,13 @@ public class StockWarehouseService {
             ProductStock newProductStock,
             ProductStock productStock
     ){
-        newProductStock.setQuantity(item.getQuantity()+ productStock.getQuantity());
+        newProductStock.setQuantity(item.getQuantity() + productStock.getQuantity());
     }
 
     public void creditStockQuantity(StockWarehouse stockWarehouse, Item item){
         StockWarehouse newStockWarehouse = stockWarehouse;
+        if(Objects.isNull(item.getQuantity()))
+            item.setQuantity(0);
         newStockWarehouse.setQuantity(stockWarehouse.getQuantity()+item.getQuantity());
         repository.save(newStockWarehouse);
     }
