@@ -50,4 +50,13 @@ public class StockBranchResource {
         return ResponseEntity.created(uri).build();
     }
 
+
+    @RequestMapping(value = "/invoices", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> delete(@Valid @RequestBody InvoiceNewDTO objDto){
+        Invoice invoice = invoiceService.fromDTO(objDto);
+        service.debitItem(invoice);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(invoice.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
 }

@@ -116,4 +116,35 @@ public class StockBranchService {
         StockBranch stockBranch = new StockBranch(null, objDto.getQuantity(),"BRANCH",objDto.getBranchCode());
         return stockBranch;
     }
+
+    @Transactional
+    public void debitItem(Invoice invoice){
+        itemService.insertAll(invoice.getItems());
+        invoiceService.insert(invoice);
+        StockBranch stockBranch = find(invoice.getStockCode());
+        for(Item item : invoice.getItems()){
+            Product product = productService.find(item.getSku());
+            ProductStock productStock = findPK(stockBranch, product);
+            ProductStock oldProductStock = productStock;
+            debitProductQuantity(item, oldProductStock, productStock);
+            debitStockQuantity(stockBranch, item);
+            productStockRepository.save(oldProductStock);
+        }
+    }
+
+    public void debitStockQuantity(StockBranch stockBranch, Item item){
+        StockBranch newStockBranch = stockBranch;
+        if(Objects.isNull(item.getQuantity()))
+            item.setQuantity(0);
+        newStockBranch.setQuantity(stockBranch.getQuantity()-item.getQuantity());
+        repository.save(newStockBranch);
+    }
+
+    public void debitProductQuantity(
+            Item item,
+            ProductStock oldProductStock,
+            ProductStock productStock
+    ){
+        oldProductStock.setQuantity(productStock.getQuantity() - item.getQuantity());
+    }
 }
