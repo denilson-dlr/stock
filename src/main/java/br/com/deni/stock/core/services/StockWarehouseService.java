@@ -1,12 +1,7 @@
 package br.com.deni.stock.core.services;
 
 
-import br.com.deni.stock.core.domain.Invoice;
-import br.com.deni.stock.core.domain.Item;
-import br.com.deni.stock.core.domain.Product;
-import br.com.deni.stock.core.domain.ProductStock;
-import br.com.deni.stock.core.domain.ProductStockPK;
-import br.com.deni.stock.core.domain.StockWarehouse;
+import br.com.deni.stock.core.domain.*;
 import br.com.deni.stock.core.domain.dto.StockWarehouseNewDTO;
 import br.com.deni.stock.core.repositories.ProductStockRepository;
 import br.com.deni.stock.core.repositories.StockWarehouseRepository;
@@ -120,5 +115,36 @@ public class StockWarehouseService {
     public StockWarehouse fromDTO(StockWarehouseNewDTO objDto) {
         StockWarehouse stockWarehouse = new StockWarehouse(null, objDto.getQuantity(),"WAREHOUSE",objDto.getWarehouseCode());
         return stockWarehouse;
+    }
+
+    @Transactional
+    public void debitItem(Invoice invoice){
+        itemService.insertAll(invoice.getItems());
+        invoiceService.insert(invoice);
+        StockWarehouse stockWarehouse = find(invoice.getStockCode());
+        for(Item item : invoice.getItems()){
+            Product product = productService.find(item.getSku());
+            ProductStock productStock = findPK(stockWarehouse, product);
+            ProductStock oldProductStock = productStock;
+            debitProductQuantity(item, oldProductStock, productStock);
+            debitStockQuantity(stockWarehouse, item);
+            productStockRepository.save(oldProductStock);
+        }
+    }
+
+    public void debitStockQuantity(StockWarehouse stockWarehouse, Item item){
+        StockWarehouse newStockWarehouse = stockWarehouse;
+        if(Objects.isNull(item.getQuantity()))
+            item.setQuantity(0);
+        newStockWarehouse.setQuantity(stockWarehouse.getQuantity()-item.getQuantity());
+        repository.save(newStockWarehouse);
+    }
+
+    public void debitProductQuantity(
+            Item item,
+            ProductStock oldProductStock,
+            ProductStock productStock
+    ){
+        oldProductStock.setQuantity(productStock.getQuantity() - item.getQuantity());
     }
 }

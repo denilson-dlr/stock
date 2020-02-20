@@ -42,8 +42,16 @@ public class StockWarehouseResource {
         return ResponseEntity.created(uri).build();
     }
 
-    @RequestMapping(value = "/invoices", method = RequestMethod.POST)
+    @RequestMapping(value = "/invoices", method = RequestMethod.PUT)
     public ResponseEntity<Void> insert(@Valid @RequestBody InvoiceNewDTO objDto){
+        Invoice invoice = invoiceService.fromDTO(objDto);
+        service.creditItem(invoice);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(invoice.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+
+    @RequestMapping(value = "/invoices", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> remove(@Valid @RequestBody InvoiceNewDTO objDto){
         Invoice invoice = invoiceService.fromDTO(objDto);
         service.creditItem(invoice);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(invoice.getId()).toUri();
