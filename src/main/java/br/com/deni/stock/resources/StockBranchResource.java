@@ -6,7 +6,11 @@ import br.com.deni.stock.core.domain.dto.InvoiceNewDTO;
 import br.com.deni.stock.core.domain.dto.StockBranchNewDTO;
 import br.com.deni.stock.core.services.InvoiceService;
 import br.com.deni.stock.core.services.StockBranchService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,13 +32,27 @@ public class StockBranchResource {
     @Autowired
     private InvoiceService invoiceService;
 
-    @RequestMapping(value="/{id}", method=RequestMethod.GET)
+    @ApiOperation(value = "consultar-estoque-loja", nickname = "Consultar as Lojas cadastradas")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 400, message = ""),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 500, message = "Failure", response = Exception.class)})
+    @RequestMapping(value="/{id}", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StockBranch> find(@PathVariable Integer id) {
         StockBranch obj = service.find(id);
         return ResponseEntity.ok().body(obj);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @ApiOperation(value = "inserir-loja", nickname = "Inserir nova Loja")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 400, message = ""),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 500, message = "Failure", response = Exception.class)})
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> insert(@Valid @RequestBody StockBranchNewDTO objDto){
         StockBranch stockBranch = service.fromDTO(objDto);
         stockBranch = service.insert(stockBranch);
@@ -42,7 +60,14 @@ public class StockBranchResource {
         return ResponseEntity.created(uri).build();
     }
 
-    @RequestMapping(value = "/invoices", method = RequestMethod.PUT)
+    @ApiOperation(value = "creditar-item-estoque-loja", nickname = "Creditar item em estoque da Loja.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 400, message = ""),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 500, message = "Failure", response = Exception.class)})
+    @RequestMapping(value = "/invoices", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> insert(@Valid @RequestBody InvoiceNewDTO objDto){
         Invoice invoice = invoiceService.fromDTO(objDto);
         service.creditItem(invoice);
@@ -50,8 +75,14 @@ public class StockBranchResource {
         return ResponseEntity.created(uri).build();
     }
 
-
-    @RequestMapping(value = "/invoices", method = RequestMethod.DELETE)
+    @ApiOperation(value = "debitar-item-estoque-loja", nickname = "Debitar item de Estoque da Loja.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 400, message = ""),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 500, message = "Failure", response = Exception.class)})
+    @RequestMapping(value = "/invoices", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> remove(@Valid @RequestBody InvoiceNewDTO objDto){
         Invoice invoice = invoiceService.fromDTO(objDto);
         service.debitItem(invoice);
