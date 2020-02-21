@@ -6,6 +6,7 @@ import br.com.deni.stock.core.domain.dto.InvoiceNewDTO;
 import br.com.deni.stock.core.domain.dto.StockBranchNewDTO;
 import br.com.deni.stock.core.services.InvoiceService;
 import br.com.deni.stock.core.services.StockBranchService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -24,6 +25,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/branches")
+@Api(value = "Estoque do Centro Distribuidor",description = "Estoque do Centro Distribuidor Endpoint", tags = "Estoque Centro Distribuidor")
 public class StockBranchResource {
 
     @Autowired

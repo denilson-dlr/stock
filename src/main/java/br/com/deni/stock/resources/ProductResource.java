@@ -2,6 +2,7 @@ package br.com.deni.stock.resources;
 
 import br.com.deni.stock.core.domain.Product;
 import br.com.deni.stock.core.services.ProductService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/products")
+@Api(value = "Produto em Estoque",description = "Produto em Estoque Endpoint", tags = "Produto em Estoque")
 public class ProductResource {
 
     @Autowired
