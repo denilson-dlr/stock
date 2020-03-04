@@ -1,11 +1,14 @@
 package br.com.deni.stock.resources;
 
 import br.com.deni.stock.core.domain.Invoice;
+import br.com.deni.stock.core.domain.Item;
 import br.com.deni.stock.core.domain.StockBranch;
 import br.com.deni.stock.core.domain.dto.InvoiceNewDTO;
 import br.com.deni.stock.core.domain.dto.StockBranchNewDTO;
+import br.com.deni.stock.core.domain.dto.StockItemSellDTO;
 import br.com.deni.stock.core.services.InvoiceService;
 import br.com.deni.stock.core.services.StockBranchService;
+import br.com.deni.stock.core.services.StockItemCommandService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -22,6 +25,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/branches")
@@ -33,6 +37,12 @@ public class StockBranchResource {
 
     @Autowired
     private InvoiceService invoiceService;
+
+    private final StockItemCommandService commandService;
+
+    public StockBranchResource(StockItemCommandService commandService){
+        this.commandService = commandService;
+    }
 
     @ApiOperation(value = "consultar-estoque-loja", nickname = "Consultar as Lojas cadastradas")
     @ApiResponses(value = {
@@ -88,6 +98,11 @@ public class StockBranchResource {
     public ResponseEntity<Void> remove(@Valid @RequestBody InvoiceNewDTO objDto){
         Invoice invoice = invoiceService.fromDTO(objDto);
         service.debitItem(invoice);
+        for (Item item : invoice.getItems()) {
+            StockItemSellDTO dto = new StockItemSellDTO();
+            dto.setQuantity(item.getQuantity());
+            commandService.sellStockItem(dto);
+        }
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(invoice.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
